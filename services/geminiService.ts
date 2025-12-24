@@ -1,22 +1,12 @@
 
 import { GoogleGenAI } from "@google/genai";
 
-const getSafeApiKey = () => {
-  try {
-    // استخدام فحص نوع المتغير لتجنب ReferenceError
-    if (typeof process !== 'undefined' && process.env && process.env.API_KEY) {
-      return process.env.API_KEY;
-    }
-    return "";
-  } catch (e) {
-    return "";
-  }
-};
-
 export const generateLoveLetter = async (traits: string, context: string) => {
-  const apiKey = getSafeApiKey();
+  // الحصول على المفتاح مباشرة من البيئة
+  const apiKey = process.env.API_KEY;
   
   if (!apiKey) {
+    console.error("API_KEY is missing in environment variables");
     return "حبيبتي، قلبي مليء بالكلمات لكِ، ولكن يبدو أن هناك عائقاً تقنياً يمنعني من صياغتها الآن بالذكاء الاصطناعي. اعلمي أنني أحبكِ فوق ما تصفه الحروف.";
   }
 
