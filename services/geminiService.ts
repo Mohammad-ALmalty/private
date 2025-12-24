@@ -4,9 +4,9 @@ export const generateLoveLetter = async (traits: string, context: string) => {
   try {
     const apiKey = process.env.API_KEY;
     
-    if (!apiKey || apiKey === "undefined" || apiKey === "") {
-      console.error("Critical: API_KEY is missing in the execution context.");
-      throw new Error("API_KEY_MISSING");
+    if (!apiKey) {
+      console.error("Critical Error: API_KEY is missing from environment.");
+      throw new Error("API_KEY_NOT_FOUND");
     }
 
     const ai = new GoogleGenAI({ apiKey });
@@ -28,14 +28,14 @@ export const generateLoveLetter = async (traits: string, context: string) => {
       }
     });
 
-    return response.text || "أحبكِ جداً وكل عام وأنتِ بخير.";
+    return response.text || "أحبكِ جداً وكل عام وأنتِ بخير يا كل حياتي.";
 
   } catch (error) {
-    console.error("Gemini Error:", error);
+    console.error("Gemini Connection Error:", error);
     return `حبيبتي الغالية،
 
-كل عام وأنتِ بخير يا كل حياتي. حاولت أن أكتب لكِ كلمات تصف ما في قلبي، ولكن مشاعري نحوكِ أكبر من أي وصف. اعلمي أنني أحبكِ في كل يوم أكثر من الذي قبله.
+كل عام وأنتِ بخير يا كل حياتي. حاولت أن أكتب لكِ كلمات تصف ما في قلبي باستخدام الذكاء الاصطناعي، ولكن مشاعري الحقيقية نحوكِ أكبر من أن يصفها أي نظام تقني. اعلمي أنني أحبكِ في كل ثانية، وأنتِ أجمل ما حدث لي.
 
-المحب لكِ للأبد، محمد`;
+المحب لكِ للأبد، محمد ❤️`;
   }
 };
