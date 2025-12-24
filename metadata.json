@@ -1,0 +1,7 @@
+{
+  "name": "Eternal Rose - A Digital Birthday Gift",
+  "description": "A beautiful, romantic digital birthday experience for your loved one, featuring AI-powered love letters, a memory gallery, and interactive romantic elements.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
