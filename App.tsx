@@ -143,6 +143,7 @@ const App: React.FC = () => {
             <p className="text-rose-100 text-lg mb-8 font-arabic-poetic">
               كل عام وأنتِ حبيبتي، رفيقتي، وملهمتي. أتمنى لكِ عاماً مليئاً بالسعادة كما تملئين حياتي بها.
             </p>
+            <p className="font-arabic-poetic text-white text-xl font-bold mb-8">مع كل حبي، محمد ❤️</p>
             <div className="flex justify-center gap-4">
               <span className="text-3xl cursor-pointer hover:scale-125 transition-transform" onClick={() => soundService.playSparkle()}>❤️</span>
               <span className="text-3xl cursor-pointer hover:scale-125 transition-transform" onClick={() => soundService.playMagicSuccess()}>🎂</span>

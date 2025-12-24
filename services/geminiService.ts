@@ -23,12 +23,17 @@ export const generateLoveLetter = async (traits: string, context: string) => {
   try {
     const ai = new GoogleGenAI({ apiKey });
     const prompt = `
-      Write a deeply romantic, poetic, and heartwarming birthday letter for a girlfriend in Arabic.
-      Traits to include: ${traits}.
-      Special context: ${context}.
-      The tone should be modern yet deeply emotional, using metaphors from nature and the stars.
-      Format it as a beautiful letter with a title.
-      Start with "حبيبتي الغالية..." and end with a romantic closing.
+      اكتب رسالة عيد ميلاد رومانسية جداً وشاعرية ودافئة لحبيبتي باللغة العربية.
+      الصفات التي يجب تضمينها: ${traits}.
+      السياق الخاص: ${context}.
+      يجب أن يكون الأسلوب عاطفياً وعميقاً، مع استخدام استعارات من الطبيعة والنجوم.
+      نسقها كرسالة جميلة مع عنوان.
+      ابدأ بـ "حبيبتي الغالية..." وانتهِ بخاتمة رومانسية.
+      
+      ملاحظة هامة جداً:
+      1. اسمي هو "محمد"، لذا يجب أن تنتهي الرسالة بتوقيعي: "المحب لكِ للأبد، محمد".
+      2. لا تستخدم أبداً علامات النجوم (**) أو أي رموز تنسيق ماركداون في النص.
+      3. لا تضع أي مربعات أو أقواس حول الاسم، اكتبه بشكل طبيعي ضمن النص.
     `;
 
     const response = await ai.models.generateContent({

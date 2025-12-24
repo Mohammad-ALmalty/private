@@ -12,8 +12,8 @@ const VOUCHERS = [
   "عناق دافئ لمدة 10 دقائق كاملة 🤗"
 ];
 
-// تم تعديل الوقت من 00:00 إلى 23:00 في اليوم السابق لإضافة ساعة واحدة كما طلبت
-const START_DATE = new Date('2021-02-19T23:00:00'); 
+// تم تعديل الوقت إلى 22:00 لإضافة ساعة إضافية للعداد ليصبح 21 ساعة كما طلبت
+const START_DATE = new Date('2021-02-19T22:00:00'); 
 
 const BirthdaySurprise: React.FC = () => {
   const [candlesOut, setCandlesOut] = useState(false);
@@ -99,7 +99,6 @@ const BirthdaySurprise: React.FC = () => {
         analyserRef.current.getByteFrequencyData(dataArray);
         const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
         
-        // Threshold for "blowing" sound detection
         if (average > 65) { 
           handleBlowOut();
         } else {
@@ -114,7 +113,7 @@ const BirthdaySurprise: React.FC = () => {
       setMicDenied(true);
       
       if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
-        alert("عذراً حبيبتي، يبدو أن الوصول للميكروفون مرفوض. يمكنكِ إطفاء الشموع يدوياً بالنقر عليها، أو تفعيل الإذن من إعدادات المتصفح.");
+        alert("عذراً حبيبتي، يبدو أن الوصول للميكروفون مرفوض. يمكنكِ إطفاء الشموع يدوياً بالنقر عليها.");
       }
     }
   };
@@ -231,12 +230,6 @@ const BirthdaySurprise: React.FC = () => {
                   <span>الميكروفون غير متاح. يمكنكِ النقر على الكعكة للإطفاء.</span>
                 </div>
               )}
-              
-              {!candlesOut && (
-                <p className="text-xs text-rose-300 italic">
-                  نصيحة: يمكنكِ النقر على الشموع مباشرة لإطفائها
-                </p>
-              )}
             </div>
           </div>
 
@@ -258,36 +251,17 @@ const BirthdaySurprise: React.FC = () => {
                 <div className="group relative">
                   <div className="absolute -inset-8 bg-rose-400 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
                   <Gift size={140} className="text-rose-500 relative z-10 drop-shadow-2xl" strokeWidth={1} />
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <Sparkles className="text-yellow-400 animate-ping" size={40} />
-                  </div>
                 </div>
               ) : (
                 <div className="bg-rose-50 p-8 rounded-[2.5rem] border-2 border-dashed border-rose-200 animate-fade-in relative max-w-xs mx-auto">
                   <div className="absolute -top-4 -right-4 bg-rose-500 text-white p-2 rounded-full shadow-lg">
                     <Sparkles size={24} />
                   </div>
-                  <h4 className="text-rose-600 font-bold mb-4 flex items-center justify-center gap-2">
-                    <PartyPopper size={18} />
-                    قسيمة الحب
-                  </h4>
-                  <p className="text-xl font-arabic-poetic text-gray-800 leading-relaxed font-bold">
-                    {currentVoucher}
-                  </p>
-                  <button 
-                    onClick={(e) => { e.stopPropagation(); setBoxOpened(false); }}
-                    className="mt-6 text-xs text-rose-400 hover:text-rose-600 underline"
-                  >
-                    افتحي هدية أخرى؟
-                  </button>
+                  <h4 className="text-rose-600 font-bold mb-4 flex items-center justify-center gap-2">قسيمة الحب</h4>
+                  <p className="text-xl font-arabic-poetic text-gray-800 leading-relaxed font-bold">{currentVoucher}</p>
+                  <button onClick={(e) => { e.stopPropagation(); setBoxOpened(false); }} className="mt-6 text-xs text-rose-400 hover:text-rose-600 underline">افتحي هدية أخرى؟</button>
                 </div>
               )}
-            </div>
-            
-            <div className="mt-8 z-10">
-              <p className="text-gray-400 text-sm italic">
-                {!boxOpened ? "انقري لتكتشفي مفاجأتكِ اليوم" : "لا تنسي المطالبة بحقكِ في هذه القسيمة! 😉"}
-              </p>
             </div>
           </div>
         </div>
