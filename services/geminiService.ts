@@ -1,24 +1,27 @@
 
 import { GoogleGenAI } from "@google/genai";
 
-// دالة آمنة لجلب مفتاح API دون التسبب في انهيار التطبيق
 const getSafeApiKey = () => {
   try {
-    return (typeof process !== 'undefined' && process.env && process.env.API_KEY) ? process.env.API_KEY : "";
+    // استخدام فحص نوع المتغير لتجنب ReferenceError
+    if (typeof process !== 'undefined' && process.env && process.env.API_KEY) {
+      return process.env.API_KEY;
+    }
+    return "";
   } catch (e) {
     return "";
   }
 };
 
-const ai = new GoogleGenAI({ apiKey: getSafeApiKey() });
-
 export const generateLoveLetter = async (traits: string, context: string) => {
   const apiKey = getSafeApiKey();
+  
   if (!apiKey) {
-    return "حبيبتي، قلبي مليء بالكلمات لكِ، ولكن يبدو أن هناك عائقاً تقنياً يمنعني من كتابتها الآن. أحبكِ دائماً.";
+    return "حبيبتي، قلبي مليء بالكلمات لكِ، ولكن يبدو أن هناك عائقاً تقنياً يمنعني من صياغتها الآن بالذكاء الاصطناعي. اعلمي أنني أحبكِ فوق ما تصفه الحروف.";
   }
 
   try {
+    const ai = new GoogleGenAI({ apiKey });
     const prompt = `
       Write a deeply romantic, poetic, and heartwarming birthday letter for a girlfriend in Arabic.
       Traits to include: ${traits}.
@@ -40,6 +43,6 @@ export const generateLoveLetter = async (traits: string, context: string) => {
     return response.text || "عذراً حبيبتي، لم أستطع إيجاد الكلمات المناسبة الآن، لكن قلبي ينبض بحبك دائماً.";
   } catch (error) {
     console.error("Error generating letter:", error);
-    return "لا توجد كلمات توصف حبي لكِ، لكن قلبي يخبركِ كل يوم أنكِ الأغلى.";
+    return "لا توجد كلمات توصف حبي لكِ، لكن قلبي يخبركِ كل يوم أنكِ الأغلى في حياتي.";
   }
 };

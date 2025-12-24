@@ -1,13 +1,13 @@
 
 import React, { useState } from 'react';
-import HeartBackground from './components/HeartBackground';
-import Hero from './components/Hero';
-import AILoveLetter from './components/AILoveLetter';
-import Gallery from './components/Gallery';
-import ReasonsSection from './components/ReasonsSection';
-import BirthdaySurprise from './components/BirthdaySurprise';
-import { NAV_ITEMS } from './constants';
-import { soundService } from './services/soundService';
+import HeartBackground from './components/HeartBackground.tsx';
+import Hero from './components/Hero.tsx';
+import AILoveLetter from './components/AILoveLetter.tsx';
+import Gallery from './components/Gallery.tsx';
+import ReasonsSection from './components/ReasonsSection.tsx';
+import BirthdaySurprise from './components/BirthdaySurprise.tsx';
+import { NAV_ITEMS } from './constants.tsx';
+import { soundService } from './services/soundService.ts';
 import { Lock, Heart, Stars } from 'lucide-react';
 
 const App: React.FC = () => {
@@ -29,7 +29,10 @@ const App: React.FC = () => {
 
   const scrollTo = (id: string) => {
     soundService.playClick();
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const handleMusicClick = () => {
@@ -39,7 +42,7 @@ const App: React.FC = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen relative bg-[#fff5f5] flex items-center justify-center px-4 overflow-hidden">
+      <div className="min-h-screen relative bg-[#fff5f5] flex items-center justify-center px-4 overflow-hidden text-right">
         <HeartBackground />
         <div className="relative z-10 w-full max-w-md animate-fade-in">
           <div className={`bg-white/80 backdrop-blur-xl p-10 rounded-[3rem] shadow-2xl border border-rose-100 text-center transition-all duration-300 ${error ? 'shake border-red-300' : ''}`}>
@@ -93,10 +96,9 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen relative bg-[#fff5f5]">
+    <div className="min-h-screen relative bg-[#fff5f5] text-right">
       <HeartBackground />
       
-      {/* Navigation */}
       <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-white/80 backdrop-blur-xl px-6 py-3 rounded-full shadow-2xl border border-rose-100 flex items-center gap-4 md:gap-8">
         {NAV_ITEMS.map((item) => (
           <button
@@ -112,7 +114,6 @@ const App: React.FC = () => {
             </span>
           </button>
         ))}
-        {/* إضافة رابط سريع لقسم المفاجآت */}
         <button onClick={() => scrollTo('surprises')} className="flex flex-col items-center gap-1 group">
             <div className="p-2 rounded-full group-hover:bg-rose-100 text-rose-500 transition-colors">
               <Stars size={20} />
@@ -139,7 +140,7 @@ const App: React.FC = () => {
         <footer className="py-20 text-center bg-rose-600 text-white mt-20">
           <div className="max-w-2xl mx-auto px-4">
             <h3 className="text-3xl font-romantic mb-4">Always & Forever</h3>
-            <p className="text-rose-100 text-lg mb-8">
+            <p className="text-rose-100 text-lg mb-8 font-arabic-poetic">
               كل عام وأنتِ حبيبتي، رفيقتي، وملهمتي. أتمنى لكِ عاماً مليئاً بالسعادة كما تملئين حياتي بها.
             </p>
             <div className="flex justify-center gap-4">
@@ -151,7 +152,6 @@ const App: React.FC = () => {
         </footer>
       </main>
 
-      {/* Music Control Placeholder (Optional for user interaction) */}
       <div className="fixed top-6 right-6 z-50">
         <button 
           className="p-3 bg-white/80 backdrop-blur-md rounded-full shadow-lg border border-rose-100 text-rose-500 animate-pulse transition-transform hover:scale-110 active:scale-90"
