@@ -1,9 +1,23 @@
 
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || "" });
+// دالة آمنة لجلب مفتاح API دون التسبب في انهيار التطبيق
+const getSafeApiKey = () => {
+  try {
+    return (typeof process !== 'undefined' && process.env && process.env.API_KEY) ? process.env.API_KEY : "";
+  } catch (e) {
+    return "";
+  }
+};
+
+const ai = new GoogleGenAI({ apiKey: getSafeApiKey() });
 
 export const generateLoveLetter = async (traits: string, context: string) => {
+  const apiKey = getSafeApiKey();
+  if (!apiKey) {
+    return "حبيبتي، قلبي مليء بالكلمات لكِ، ولكن يبدو أن هناك عائقاً تقنياً يمنعني من كتابتها الآن. أحبكِ دائماً.";
+  }
+
   try {
     const prompt = `
       Write a deeply romantic, poetic, and heartwarming birthday letter for a girlfriend in Arabic.
