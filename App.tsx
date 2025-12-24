@@ -1,14 +1,32 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import HeartBackground from './components/HeartBackground';
 import Hero from './components/Hero';
 import AILoveLetter from './components/AILoveLetter';
 import Gallery from './components/Gallery';
 import ReasonsSection from './components/ReasonsSection';
+import BirthdaySurprise from './components/BirthdaySurprise';
 import { NAV_ITEMS } from './constants';
 import { soundService } from './services/soundService';
+import { Lock, Heart, Stars } from 'lucide-react';
 
 const App: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === 'i_love_you') {
+      soundService.playMagicSuccess();
+      setIsAuthenticated(true);
+    } else {
+      soundService.playClick();
+      setError(true);
+      setTimeout(() => setError(false), 1000);
+    }
+  };
+
   const scrollTo = (id: string) => {
     soundService.playClick();
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -18,6 +36,61 @@ const App: React.FC = () => {
     soundService.playMagicSuccess();
     alert("تخيلي أغنيتكِ المفضلة تعمل الآن... 🎶 أحبكِ!");
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen relative bg-[#fff5f5] flex items-center justify-center px-4 overflow-hidden">
+        <HeartBackground />
+        <div className="relative z-10 w-full max-w-md animate-fade-in">
+          <div className={`bg-white/80 backdrop-blur-xl p-10 rounded-[3rem] shadow-2xl border border-rose-100 text-center transition-all duration-300 ${error ? 'shake border-red-300' : ''}`}>
+            <div className="inline-block p-4 bg-rose-50 rounded-full mb-6">
+              <Heart className="w-12 h-12 text-rose-500 fill-rose-500 animate-heartbeat" />
+            </div>
+            
+            <h2 className="text-3xl font-bold text-gray-800 mb-2 font-arabic-poetic">أهلاً بكِ يا أميرتي</h2>
+            <p className="text-gray-500 mb-8 font-arabic-poetic">من فضلكِ ادخلي كلمة السر لرؤية هديتكِ</p>
+            
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div className="relative">
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="كلمة السر..."
+                  className={`w-full px-6 py-4 rounded-2xl bg-white border outline-none transition-all text-center text-lg ${error ? 'border-red-400 focus:ring-red-200' : 'border-rose-200 focus:ring-rose-400 focus:ring-2'}`}
+                  autoFocus
+                />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-rose-200 w-5 h-5" />
+              </div>
+              
+              <button
+                type="submit"
+                className="w-full py-4 bg-rose-500 text-white rounded-2xl font-bold text-lg hover:bg-rose-600 shadow-lg shadow-rose-200 transition-all active:scale-95"
+              >
+                افتحي عالمي ❤️
+              </button>
+            </form>
+            
+            {error && (
+              <p className="mt-4 text-red-500 font-bold text-sm animate-pulse">كلمة السر غير صحيحة يا حبيبتي</p>
+            )}
+          </div>
+          
+          <p className="mt-8 text-center text-rose-300 font-romantic text-xl">Created with love just for you</p>
+        </div>
+        
+        <style dangerouslySetInnerHTML={{ __html: `
+          .shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+          @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+          }
+        `}} />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen relative bg-[#fff5f5]">
@@ -39,6 +112,13 @@ const App: React.FC = () => {
             </span>
           </button>
         ))}
+        {/* إضافة رابط سريع لقسم المفاجآت */}
+        <button onClick={() => scrollTo('surprises')} className="flex flex-col items-center gap-1 group">
+            <div className="p-2 rounded-full group-hover:bg-rose-100 text-rose-500 transition-colors">
+              <Stars size={20} />
+            </div>
+            <span className="text-[10px] md:text-xs font-medium text-gray-500 group-hover:text-rose-600 transition-colors">المفاجأة</span>
+        </button>
       </nav>
 
       <main className="relative z-10">
@@ -49,6 +129,10 @@ const App: React.FC = () => {
         <AILoveLetter />
         
         <Gallery />
+
+        <div id="surprises">
+          <BirthdaySurprise />
+        </div>
         
         <ReasonsSection />
 

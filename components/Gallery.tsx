@@ -95,14 +95,6 @@ const Gallery: React.FC = () => {
     if (activeId === id) setActiveId(null);
   };
 
-  const clearAllMemories = () => {
-    if (window.confirm('هل تريد مسح الألبوم بالكامل؟')) {
-      soundService.playClick();
-      setMemories([]);
-      localStorage.removeItem('eternal_rose_memories');
-    }
-  };
-
   const updateCaption = (id: string, newCaption: string) => {
     setMemories(prev => prev.map(m => m.id === id ? { ...m, caption: newCaption } : m));
   };
@@ -111,9 +103,16 @@ const Gallery: React.FC = () => {
     <section id="gallery" className="py-20 bg-rose-50/30">
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-12">
-          <div className="inline-block p-4 bg-white rounded-3xl shadow-sm mb-6 text-rose-500">
+          {/* تم جعل أيقونة الكاميرا هي الزر التفاعلي لرفع الصور بشكل أكثر أناقة */}
+          <button 
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isUploading}
+            className="inline-block p-4 bg-white rounded-3xl shadow-sm mb-6 text-rose-500 hover:scale-110 transition-transform active:scale-95 disabled:opacity-50 cursor-pointer"
+            title="إضافة صور جديدة"
+          >
             <Camera size={40} className={isUploading ? "animate-spin" : ""} />
-          </div>
+          </button>
+          
           <h2 className="text-4xl md:text-6xl font-bold text-gray-800 mb-4 font-arabic-poetic">ألبوم ذكرياتنا</h2>
           <p className="text-gray-600 mb-8 max-w-lg mx-auto">
             {memories.length > 0 ? (
@@ -129,23 +128,6 @@ const Gallery: React.FC = () => {
               <span className="font-bold">{error}</span>
             </div>
           )}
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <button 
-              onClick={() => fileInputRef.current?.click()}
-              disabled={isUploading}
-              className="group relative inline-flex items-center gap-3 bg-rose-500 text-white px-10 py-4 rounded-full font-bold hover:bg-rose-600 transition-all shadow-xl disabled:opacity-50"
-            >
-              <Plus size={24} />
-              {isUploading ? 'جاري الحفظ...' : 'إضافة صورنا الأولى'}
-            </button>
-
-            {memories.length > 0 && (
-              <button onClick={clearAllMemories} className="text-gray-400 hover:text-red-500 font-bold px-6">
-                مسح الألبوم
-              </button>
-            )}
-          </div>
 
           <input type="file" ref={fileInputRef} onChange={handleImageUpload} accept="image/*" multiple className="hidden" />
         </div>
